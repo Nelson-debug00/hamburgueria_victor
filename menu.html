@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Menú de La Hamburguería de Víctor | Al Carbón Sabe Mejor. Hamburguesas, perros calientes, arepas y lunchs en Maturín." />
+  <meta name="theme-color" content="#121212" />
+  <title>Menú | La Hamburguería de Víctor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#menu">Saltar al contenido principal</a>
+
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html#inicio" class="brand" aria-label="La Hamburguería de Víctor — Ir al inicio">
+        <span class="brand-logo" aria-hidden="true">🍔</span>
+        <span class="brand-text">La Hamburguería <strong>de Víctor</strong></span>
+      </a>
+      <nav class="nav-menu" id="navMenu" aria-label="Navegación principal">
+        <a href="index.html#inicio" class="nav-link">Inicio</a>
+        <a href="menu.html" class="nav-link active">Menú</a>
+        <a href="index.html#eventos" class="nav-link">Eventos Especiales</a>
+        <a href="index.html#sedes" class="nav-link">Sedes</a>
+        <a href="index.html#contacto" class="nav-link">Contacto</a>
+        <a href="https://wa.me/584249023408?text=%C2%A1Hola!%20Quiero%20hacer%20un%20pedido%20en%20La%20Hamburguer%C3%ADa%20de%20V%C3%ADctor%20%F0%9F%8D%94"
+           class="btn btn-primary nav-cta" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      </nav>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Abrir menú de navegación">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section menu" id="menu">
+      <div class="container">
+        <header class="section-head reveal visible">
+          <span class="kicker">Nuestras Especialidades</span>
+          <h2>Menú Destacado</h2>
+          <p>Hecho al carbón, servido con amor. Filtra por categoría y encuentra tu antojo de hoy.</p>
+        </header>
+
+        <div class="filters reveal visible" aria-label="Filtros de categoría del menú">
+          <button class="filter-btn active" data-filter="all">Todo</button>
+          <button class="filter-btn" data-filter="hamburguesas">Hamburguesas</button>
+          <button class="filter-btn" data-filter="perros">Perros Calientes</button>
+          <button class="filter-btn" data-filter="arepas">Arepas &amp; Lunchs</button>
+          <button class="filter-btn" data-filter="combos">Combos</button>
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+          <!-- HAMBURGUESAS -->
+          <article class="card reveal visible" data-category="hamburguesas">
+            <div class="card-media"><span class="card-emoji">🍔</span><span class="card-badge">La Insignia</span></div>
+            <div class="card-body">
+              <h3>Doble Vic Burger</h3>
+              <p>Doble carne al carbón, queso fundido y tocineta crujiente. La reina de la parrilla.</p>
+              <div class="card-foot"><span class="tag">Al carbón</span><button class="btn btn-ghost btn-sm" data-wa-item="Doble Vic Burger">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="hamburguesas">
+            <div class="card-media"><span class="card-emoji">🍗</span><span class="card-badge">Favorita</span></div>
+            <div class="card-body">
+              <h3>Tentación César Burger</h3>
+              <p>Pollo crujiente empanizado, tocineta, salsa césar especial y lechuga fresca.</p>
+              <div class="card-foot"><span class="tag">Crujiente</span><button class="btn btn-ghost btn-sm" data-wa-item="Tentación César Burger">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="hamburguesas">
+            <div class="card-media"><span class="card-emoji">🍔</span></div>
+            <div class="card-body">
+              <h3>Clásica al Carbón</h3>
+              <p>Carne a la parrilla, queso derretido, vegetales frescos y salsa ahumada de la casa.</p>
+              <div class="card-foot"><span class="tag">La de siempre</span><button class="btn btn-ghost btn-sm" data-wa-item="Clásica al Carbón">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <!-- PERROS CALIENTES -->
+          <article class="card reveal visible" data-category="perros">
+            <div class="card-media"><span class="card-emoji">🌭</span><span class="card-badge">Cargado</span></div>
+            <div class="card-body">
+              <h3>Perro Caliente Supremo</h3>
+              <p>Salchicha ahumada, papas hiladas, queso fundido, tocineta y todas las salsas al gusto.</p>
+              <div class="card-foot"><span class="tag">Extra todo</span><button class="btn btn-ghost btn-sm" data-wa-item="Perro Caliente Supremo">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="perros">
+            <div class="card-media"><span class="card-emoji">🌭</span></div>
+            <div class="card-body">
+              <h3>Perro Criollo Ahumado</h3>
+              <p>Salchicha al carbón, queso de mano rallado y un toque dulce de papas hiladas.</p>
+              <div class="card-foot"><span class="tag">Ahumado</span><button class="btn btn-ghost btn-sm" data-wa-item="Perro Criollo Ahumado">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="perros">
+            <div class="card-media"><span class="card-emoji">🌭</span></div>
+            <div class="card-body">
+              <h3>Perro Clásico Víctor</h3>
+              <p>El tradicional de la casa: salchicha jugosa, papas ralladas y salsas al gusto.</p>
+              <div class="card-foot"><span class="tag">El de siempre</span><button class="btn btn-ghost btn-sm" data-wa-item="Perro Clásico Víctor">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <!-- AREPAS & LUNCHS -->
+          <article class="card reveal visible" data-category="arepas">
+            <div class="card-media"><span class="card-emoji">🫓</span><span class="card-badge">Criolla</span></div>
+            <div class="card-body">
+              <h3>Arepa de Pollo Cremoso</h3>
+              <p>Arepa asada al carbón rellena de pollo desmechado con salsa cremosa y queso.</p>
+              <div class="card-foot"><span class="tag">Venezolana</span><button class="btn btn-ghost btn-sm" data-wa-item="Arepa de Pollo Cremoso">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="arepas">
+            <div class="card-media"><span class="card-emoji">🫓</span></div>
+            <div class="card-body">
+              <h3>Arepa Pabellón</h3>
+              <p>Carne mechada, caraotas, queso blanco y tajadas. Un pabellón criollo completo.</p>
+              <div class="card-foot"><span class="tag">Contundente</span><button class="btn btn-ghost btn-sm" data-wa-item="Arepa Pabellón">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="arepas">
+            <div class="card-media"><span class="card-emoji">🍱</span></div>
+            <div class="card-body">
+              <h3>Lunch Ejecutivo</h3>
+              <p>Tu elección (hamburguesa, perro o arepa) + papas + refresco. Ideal para oficina o colegio.</p>
+              <div class="card-foot"><span class="tag">Combo diario</span><button class="btn btn-ghost btn-sm" data-wa-item="Lunch Ejecutivo">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <!-- COMBOS -->
+          <article class="card reveal visible" data-category="combos">
+            <div class="card-media"><span class="card-emoji">🎁</span><span class="card-badge">Para 4</span></div>
+            <div class="card-body">
+              <h3>Combo Familiar Vic</h3>
+              <p>4 hamburguesas clásicas + 4 papas medianas + 2 refrescos literos. Para toda la familia.</p>
+              <div class="card-foot"><span class="tag">Ahorra más</span><button class="btn btn-ghost btn-sm" data-wa-item="Combo Familiar Vic">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="combos">
+            <div class="card-media"><span class="card-emoji">🍟</span><span class="card-badge">Super Promo</span></div>
+            <div class="card-body">
+              <h3>Super Promo Parejera</h3>
+              <p>2 hamburguesas + 2 papas + 2 refrescos. El plan perfecto para compartir en pareja.</p>
+              <div class="card-foot"><span class="tag">2 x 2</span><button class="btn btn-ghost btn-sm" data-wa-item="Super Promo Parejera">Pedir 🛵</button></div>
+            </div>
+          </article>
+
+          <article class="card reveal visible" data-category="combos">
+            <div class="card-media"><span class="card-emoji">🎈</span></div>
+            <div class="card-body">
+              <h3>Combo Kids</h3>
+              <p>Hamburguesa sencilla + papitas + jugo + sorpresa. Los peques también son familia Vic.</p>
+              <div class="card-foot"><span class="tag">Peques</span><button class="btn btn-ghost btn-sm" data-wa-item="Combo Kids">Pedir 🛵</button></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contacto">
+    <div class="container footer-grid">
+      <div class="f-col brand-col">
+        <a href="index.html#inicio" class="brand">
+          <span class="brand-logo" aria-hidden="true">🍔</span>
+          <span class="brand-text">La Hamburguería <strong>de Víctor</strong></span>
+        </a>
+        <p class="f-slogan">“Al Carbón Sabe Mejor.” Hamburguesas, perros calientes, arepas y lunchs hechos con fuego y cariño maturinés.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/lahamburgueriadevictor/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.9.2 2.3.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1.1.4 2.3.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.2 1.9-.4 2.3-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1.1.4-2.3.4-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.9-.2-2.3-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1.1-.4-2.3-.1-1.2-.1-1.6-.1-4.8s0-3.6.1-4.8c.1-1.2.2-1.9.4-2.3.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1.1-.4 2.3-.4 1.2-.1 1.6-.1 4.8-.1zm0 4.9a4.9 4.9 0 1 0 0 9.8 4.9 4.9 0 0 0 0-9.8zm0 8.1a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm6.2-8.3a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>
+          </a>
+          <a href="https://wa.me/584249023408" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+          </a>
+          <a href="index.html#contacto" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.1c0-.9.3-1.5 1.6-1.5h1.3V4.9c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3V11H8.9v3h2.4v7h2.2z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Enlaces Rápidos</h4>
+        <ul>
+          <li><a href="index.html#inicio">Inicio</a></li>
+          <li><a href="menu.html">Menú</a></li>
+          <li><a href="index.html#eventos">Eventos Especiales</a></li>
+          <li><a href="index.html#sedes">Nuestras Sedes</a></li>
+          <li><a href="index.html#comunidad">Comunidad</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Mapa de Sitio</h4>
+        <ul>
+          <li><a href="menu.html#menu">Hamburguesas</a></li>
+          <li><a href="menu.html#menu">Perros Calientes</a></li>
+          <li><a href="menu.html#menu">Arepas &amp; Lunchs</a></li>
+          <li><a href="menu.html#menu">Combos y Promos</a></li>
+          <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li>📞 Delivery: <a href="https://wa.me/584249023408" target="_blank" rel="noopener">+58 424-902-3408</a></li>
+          <li>📍 Sede Bicentenario: Local #199</li>
+          <li>📍 Sede Tipuro: C.C. Terrazas del Norte, Local 8-9</li>
+          <li>🕒 Lun a Dom · 12:00 PM a 11:00 PM</li>
+          <li>📸 @lahamburgueriadevictor</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container fb-inner">
+        <p>© <span id="year"></span> La Hamburguería de Víctor — Maturín, Venezuela. Todos los derechos reservados.</p>
+        <p>Hecho con 🔥 y carbón.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
