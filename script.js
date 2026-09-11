@@ -48,15 +48,29 @@ document.addEventListener('click', (e) => {
    2. NAV ACTIVO SEGÚN SECCIÓN VISIBLE (Scrollspy)
    ========================================================= */
 const navLinks = $$('.nav-link');
+const spySections = $$('main section[id], footer[id]');
+
+const setActiveLink = (id) => navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${id}`));
+
+// ¿Página llegando al final? El footer (#contacto) puede no alcanzar la banda
+// del observer por falta de scroll restante → forzar su activación.
+const isPageBottom = () => window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
+const lastSectionId = spySections.length ? spySections[spySections.length - 1].id : null;
+
 const spyObserver = new IntersectionObserver((entries) => {
+  if (isPageBottom() && lastSectionId) { setActiveLink(lastSectionId); return; }
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${entry.target.id}`));
+      setActiveLink(entry.target.id);
     }
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
 
-$$('main section[id], footer[id]').forEach(sec => spyObserver.observe(sec));
+spySections.forEach(sec => spyObserver.observe(sec));
+
+window.addEventListener('scroll', () => {
+  if (isPageBottom() && lastSectionId) setActiveLink(lastSectionId);
+}, { passive: true });
 
 /* =========================================================
    3. FILTROS INTERACTIVOS DEL MENÚ
@@ -84,50 +98,53 @@ filterBtns.forEach(btn => btn.addEventListener('click', () => {
    4. CAROUSEL DE EVENTOS (autoplay, flechas, dots y swipe)
    ========================================================= */
 const track = $('#carouselTrack');
-const slides = $$('.slide', track);
 const dotsWrap = $('#carDots');
 const carousel = $('#carousel');
-let carIndex = 0;
-let carTimer = null;
 
-// Construcción dinámica de dots
-slides.forEach((_, i) => {
-  const dot = document.createElement('button');
-  dot.setAttribute('aria-label', `Ir al evento ${i + 1}`);
-  dot.addEventListener('click', () => goToSlide(i, true));
-  dotsWrap.appendChild(dot);
-});
-const dots = $$('button', dotsWrap);
+if (track && dotsWrap && carousel) {
+  const slides = $$('.slide', track);
+  let carIndex = 0;
+  let carTimer = null;
 
-function goToSlide(i, manual = false) {
-  carIndex = (i + slides.length) % slides.length;
-  track.style.transform = `translateX(-${carIndex * 100}%)`;
-  dots.forEach((d, idx) => d.classList.toggle('active', idx === carIndex));
-  if (manual) restartAutoplay();
+  // Construcción dinámica de dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.setAttribute('aria-label', `Ir al evento ${i + 1}`);
+    dot.addEventListener('click', () => goToSlide(i, true));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = $$('button', dotsWrap);
+
+  function goToSlide(i, manual = false) {
+    carIndex = (i + slides.length) % slides.length;
+    track.style.transform = `translateX(-${carIndex * 100}%)`;
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === carIndex));
+    if (manual) restartAutoplay();
+  }
+  function nextSlide(manual = false) { goToSlide(carIndex + 1, manual); }
+  function prevSlide(manual = false) { goToSlide(carIndex - 1, manual); }
+
+  function startAutoplay() { carTimer = setInterval(() => nextSlide(false), 5000); }
+  function restartAutoplay() { clearInterval(carTimer); startAutoplay(); }
+
+  $('#carNext').addEventListener('click', () => nextSlide(true));
+  $('#carPrev').addEventListener('click', () => prevSlide(true));
+  carousel.addEventListener('mouseenter', () => clearInterval(carTimer));
+  carousel.addEventListener('mouseleave', startAutoplay);
+
+  // Swipe táctil móvil
+  let touchX = null;
+  carousel.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+  carousel.addEventListener('touchend', e => {
+    if (touchX === null) return;
+    const delta = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(delta) > 45) delta < 0 ? nextSlide(true) : prevSlide(true);
+    touchX = null;
+  }, { passive: true });
+
+  goToSlide(0);
+  startAutoplay();
 }
-function nextSlide(manual = false) { goToSlide(carIndex + 1, manual); }
-function prevSlide(manual = false) { goToSlide(carIndex - 1, manual); }
-
-function startAutoplay() { carTimer = setInterval(() => nextSlide(false), 5000); }
-function restartAutoplay() { clearInterval(carTimer); startAutoplay(); }
-
-$('#carNext').addEventListener('click', () => nextSlide(true));
-$('#carPrev').addEventListener('click', () => prevSlide(true));
-carousel.addEventListener('mouseenter', () => clearInterval(carTimer));
-carousel.addEventListener('mouseleave', startAutoplay);
-
-// Swipe táctil móvil
-let touchX = null;
-carousel.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
-carousel.addEventListener('touchend', e => {
-  if (touchX === null) return;
-  const delta = e.changedTouches[0].clientX - touchX;
-  if (Math.abs(delta) > 45) delta < 0 ? nextSlide(true) : prevSlide(true);
-  touchX = null;
-}, { passive: true });
-
-goToSlide(0);
-startAutoplay();
 
 /* =========================================================
    5. SCROLL REVEAL (IntersectionObserver)
@@ -151,58 +168,64 @@ const waClose = $('#waClose');
 const waItemText = $('#waItem');
 const WA_WIDGET = $('#waWidget');
 
-function openWaPanel(item = null) {
-  currentOrderItem = item;
-  waItemText.textContent = item
-    ? `Pedirás: ${item}. Elige tu sede para enviar el pedido:`
-    : 'Elige tu sede y te atendemos al instante por WhatsApp.';
-  waPanel.classList.add('open');
-  waFab.setAttribute('aria-expanded', 'true');
-}
-function closeWaPanel() {
-  waPanel.classList.remove('open');
-  waFab.setAttribute('aria-expanded', 'false');
-}
-function sendToWhatsApp(sede) {
-  const number = WA_NUMBERS[sede] || WA_NUMBERS.Bicentenario;
-  const msg = currentOrderItem
-    ? `¡Hola La Hamburguería de Víctor! 👋 Quiero pedir: ${currentOrderItem} (Sede ${sede}).`
-    : `¡Hola La Hamburguería de Víctor! 👋 Quiero hacer un pedido en la Sede ${sede}.`;
-  window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
-  closeWaPanel();
-  currentOrderItem = null;
-}
-
-waFab.addEventListener('click', (e) => {
-  e.stopPropagation();
-  waPanel.classList.contains('open') ? closeWaPanel() : openWaPanel();
-});
-waClose.addEventListener('click', closeWaPanel);
-$$('.wa-option').forEach(opt => opt.addEventListener('click', () => sendToWhatsApp(opt.dataset.sede)));
-
-// Botones "Pedir" de las tarjetas del menú → abren el panel con el item precargado
-$$('[data-wa-item]').forEach(btn => btn.addEventListener('click', () => openWaPanel(btn.dataset.waItem)));
-
-// Botones directos de cada sede en la Section 3
-$$('[data-wa-sede]').forEach(btn => btn.addEventListener('click', () => {
-  currentOrderItem = null;
-  sendToWhatsApp(btn.dataset.waSede);
-}));
-
-// CTA secundario del Hero
-$('#heroDelivery').addEventListener('click', () => openWaPanel());
-
-// Cerrar panel con clic fuera o tecla Escape
-document.addEventListener('click', (e) => {
-  if (waPanel.classList.contains('open') && !WA_WIDGET.contains(e.target)) closeWaPanel();
-});
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeWaPanel();
-    navbar.classList.remove('menu-open');
-    navToggle.setAttribute('aria-expanded', 'false');
+if (waFab && waPanel && waClose) {
+  function openWaPanel(item = null) {
+    currentOrderItem = item;
+    waItemText.textContent = item
+      ? `Pedirás: ${item}. Selecciona tu sede más cercana:`
+      : 'Selecciona tu sede más cercana y te atendemos al instante por WhatsApp.';
+    waPanel.classList.add('open');
+    waFab.setAttribute('aria-expanded', 'true');
   }
-});
+  function closeWaPanel() {
+    waPanel.classList.remove('open');
+    waFab.setAttribute('aria-expanded', 'false');
+  }
+  function sendToWhatsApp(sede) {
+    const number = WA_NUMBERS[sede] || WA_NUMBERS.Bicentenario;
+    const msg = currentOrderItem
+      ? `¡Hola La Hamburguería de Víctor! 👋 Quiero pedir: ${currentOrderItem} (Sede ${sede}).`
+      : `¡Hola La Hamburguería de Víctor! 👋 Quiero hacer un pedido en la Sede ${sede}.`;
+    window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+    closeWaPanel();
+    currentOrderItem = null;
+  }
+
+  waFab.addEventListener('click', (e) => {
+    e.stopPropagation();
+    waPanel.classList.contains('open') ? closeWaPanel() : openWaPanel();
+  });
+  waClose.addEventListener('click', closeWaPanel);
+  $$('.wa-option').forEach(opt => opt.addEventListener('click', () => sendToWhatsApp(opt.dataset.sede)));
+
+  // Botones "Pedir" de las tarjetas del menú → abren el panel con el item precargado
+  $$('[data-wa-item]').forEach(btn => btn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Evita que el clic fuera del panel lo cierre de inmediato
+    openWaPanel(btn.dataset.waItem);
+  }));
+
+  // Botones directos de cada sede en la Section 3
+  $$('[data-wa-sede]').forEach(btn => btn.addEventListener('click', () => {
+    currentOrderItem = null;
+    sendToWhatsApp(btn.dataset.waSede);
+  }));
+
+  // CTA secundario del Hero
+  const heroDelivery = $('#heroDelivery');
+  if (heroDelivery) heroDelivery.addEventListener('click', () => openWaPanel());
+
+  // Cerrar panel con clic fuera o tecla Escape
+  document.addEventListener('click', (e) => {
+    if (waPanel.classList.contains('open') && !WA_WIDGET.contains(e.target)) closeWaPanel();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeWaPanel();
+      navbar.classList.remove('menu-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
 
 /* =========================================================
    7. AÑO DINÁMICO EN FOOTER
@@ -219,5 +242,20 @@ if (heroVideo) {
       heroVideo.currentTime = 0;
       heroVideo.play();
     }, 20000);
+  });
+}
+
+/* =========================================================
+   9. BOTÓN FLOTANTE: VOLVER ARRIBA
+   ========================================================= */
+const toTop = $('#toTop');
+if (toTop) {
+  const toggleToTop = () => toTop.classList.toggle('show', window.scrollY > 400);
+  window.addEventListener('scroll', toggleToTop, { passive: true });
+  toggleToTop();
+
+  toTop.addEventListener('click', () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
   });
 }
