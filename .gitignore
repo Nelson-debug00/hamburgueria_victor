@@ -1,0 +1,7 @@
+# Opencode (skill/command de impeccable instalada localmente)
+.opencode/
+
+# impeccable (todo el estado y artefactos del skill)
+.impeccable/
+PRODUCT.md
+DESIGN.md

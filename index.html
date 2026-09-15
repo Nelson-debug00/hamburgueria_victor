@@ -1,4 +1,4 @@
-<!DOCTYPEDOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -48,24 +48,27 @@
     <section class="hero" id="inicio">
       <div class="container hero-grid">
         <div class="hero-copy reveal visible">
-          <span class="hero-eyebrow">🔥 Al Carbón Sabe Mejor</span>
           <h1>El Verdadero Sabor al Carbón en <span class="accent">Maturín</span></h1>
           <p class="hero-sub">Hamburguesas jugosas, promociones familiares y el mejor ambiente de la ciudad. ¡Pide en línea o visítanos!</p>
           <div class="hero-ctas">
             <a href="menu.html" class="btn btn-primary">Ver Menú y Promos</a>
             <button type="button" class="btn btn-secondary" id="heroDelivery">Hacer Pedido Delivery</button>
           </div>
-          <div class="hero-badge" role="note">⭐ <strong>17K+ clientes felices</strong>&nbsp;|&nbsp; 2 Sedes en Maturín</div>
+          <p class="hero-micro">
+            <span class="status-indicator" id="heroStatus" role="status">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span class="status-text">Abierto</span>
+            </span>
+            <span class="hero-schedule">🕒 Lun a Dom · 12:00 PM a 11:00 PM</span>
+          </p>
         </div>
 
-        <!-- Hamburguesa animada 100% CSS (ensamblado tipo spot publicitario) -->
+        <!-- Video real de la casa: asset oficial, se reinicia cada 20 s (script.js) -->
         <div class="hero-visual" aria-hidden="true">
-          <video id="heroVideo" src="assets/video2.mp4" autoplay muted playsinline style="width:100%; height:100%; object-fit:cover; display:block;"></video>
+          <video id="heroVideo" src="assets/video2.mp4" autoplay muted playsinline></video>
         </div>
       </div>
     </section>
-
-
 
     <!-- ============ SECTION 2: EVENTOS ESPECIALES ============ -->
     <section class="section events" id="eventos">
@@ -107,10 +110,10 @@
               </figcaption>
             </figure>
           </div>
-          <button class="car-btn prev" id="carPrev" aria-label="Evento anterior">❮</button>
-          <button class="car-btn next" id="carNext" aria-label="Evento siguiente">❯</button>
+          <button class="car-btn prev" id="carPrev" aria-label="Evento anterior"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button class="car-btn next" id="carNext" aria-label="Evento siguiente"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
-        <div class="car-dots" id="carDots" role="tablist" aria-label="Seleccionar evento"></div>
+        <div class="car-dots" id="carDots" role="group" aria-label="Seleccionar evento"></div>
 
         <p class="events-quote reveal">“Más que una hamburguería, un lugar para crear momentos inolvidables en familia.”</p>
       </div>
@@ -161,17 +164,14 @@
         <div class="social-copy">
           <span class="kicker">Prueba Social</span>
           <h2>Una Comunidad que Crece con cada Mordida</h2>
-          <p>Más de <strong>17.2K seguidores</strong> nos etiquetan, reseñan y comparten sus momentos en <strong>@lahamburgueriadevictor</strong>. Súmate a la familia Vic y no te pierdas ningún drop del menú.</p>
-          <div class="stats">
-            <div class="stat"><b>17K+</b><span>Clientes felices</span></div>
-          </div>
+          <p>Nuestra comunidad nos etiqueta, reseña y comparte sus momentos en <strong>@lahamburgueriadevictor</strong>. Súmate a la familia Vic y no te pierdas ningún drop del menú.</p>
           <a class="btn btn-primary" href="https://www.instagram.com/lahamburgueriadevictor/" target="_blank" rel="noopener">Seguir en Instagram</a>
         </div>
         <div class="social-grid" aria-hidden="true">
-          <div class="tile">🍔<span class="likes">♥ 2.4K</span></div>
-          <div class="tile">🌭<span class="likes">♥ 1.8K</span></div>
-          <div class="tile">🎉<span class="likes">♥ 3.1K</span></div>
-          <div class="tile">🧀<span class="likes">♥ 2.2K</span></div>
+          <div class="tile">🍔</div>
+          <div class="tile">🌭</div>
+          <div class="tile">🎉</div>
+          <div class="tile">🧀</div>
         </div>
       </div>
     </section>
@@ -197,7 +197,7 @@
       </div>
 
       <div class="f-col f-extra">
-        <h4>Enlaces Rápidos</h4>
+        <h3>Enlaces Rápidos</h3>
         <ul>
           <li><a href="#inicio">Inicio</a></li>
           <li><a href="menu.html">Menú</a></li>
@@ -205,7 +205,7 @@
       </div>
 
       <div class="f-col f-extra">
-        <h4>Contacto</h4>
+        <h3>Contacto</h3>
         <ul>
           <li>📞 Delivery: <a href="https://wa.me/584249023408" target="_blank" rel="noopener">+58 424-902-3408</a></li>
           <li>🕒 Lun a Dom · 12:00 PM a 11:00 PM</li>

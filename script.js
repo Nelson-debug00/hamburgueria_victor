@@ -78,9 +78,15 @@ window.addEventListener('scroll', () => {
 const filterBtns = $$('.filter-btn');
 const cards = $$('#menuGrid .card');
 
+filterBtns.forEach(btn => btn.setAttribute('aria-pressed', String(btn.classList.contains('active'))));
+
 filterBtns.forEach(btn => btn.addEventListener('click', () => {
-  filterBtns.forEach(b => b.classList.remove('active'));
+  filterBtns.forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-pressed', 'false');
+  });
   btn.classList.add('active');
+  btn.setAttribute('aria-pressed', 'true');
 
   const filter = btn.dataset.filter;
   cards.forEach(card => {
@@ -109,6 +115,7 @@ if (track && dotsWrap && carousel) {
   // Construcción dinámica de dots
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
+    dot.type = 'button';
     dot.setAttribute('aria-label', `Ir al evento ${i + 1}`);
     dot.addEventListener('click', () => goToSlide(i, true));
     dotsWrap.appendChild(dot);
@@ -118,7 +125,17 @@ if (track && dotsWrap && carousel) {
   function goToSlide(i, manual = false) {
     carIndex = (i + slides.length) % slides.length;
     track.style.transform = `translateX(-${carIndex * 100}%)`;
-    dots.forEach((d, idx) => d.classList.toggle('active', idx === carIndex));
+    slides.forEach((s, idx) => {
+      const onScreen = idx === carIndex;
+      s.toggleAttribute('aria-hidden', !onScreen);
+      s.inert = !onScreen;
+    });
+    dots.forEach((d, idx) => {
+      const active = idx === carIndex;
+      d.classList.toggle('active', active);
+      if (active) d.setAttribute('aria-current', 'true');
+      else d.removeAttribute('aria-current');
+    });
     if (manual) restartAutoplay();
   }
   function nextSlide(manual = false) { goToSlide(carIndex + 1, manual); }
@@ -176,10 +193,14 @@ if (waFab && waPanel && waClose) {
       : 'Selecciona tu sede más cercana y te atendemos al instante por WhatsApp.';
     waPanel.classList.add('open');
     waFab.setAttribute('aria-expanded', 'true');
+    const firstOption = $('.wa-option', waPanel);
+    if (firstOption) firstOption.focus({ preventScroll: true });
   }
   function closeWaPanel() {
+    if (!waPanel.classList.contains('open')) return;
     waPanel.classList.remove('open');
     waFab.setAttribute('aria-expanded', 'false');
+    if (waPanel.contains(document.activeElement)) waFab.focus({ preventScroll: true });
   }
   function sendToWhatsApp(sede) {
     const number = WA_NUMBERS[sede] || WA_NUMBERS.Bicentenario;
@@ -210,9 +231,12 @@ if (waFab && waPanel && waClose) {
     sendToWhatsApp(btn.dataset.waSede);
   }));
 
-  // CTA secundario del Hero
+  // CTA secundario del Hero → directo a WhatsApp
   const heroDelivery = $('#heroDelivery');
-  if (heroDelivery) heroDelivery.addEventListener('click', () => openWaPanel());
+  if (heroDelivery) heroDelivery.addEventListener('click', () => {
+    const msg = '¡Hola La Hamburguería de Víctor! 👋 Quiero hacer un pedido delivery. 🛵';
+    window.open(`https://wa.me/${WA_NUMBERS.Bicentenario}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  });
 
   // Cerrar panel con clic fuera o tecla Escape
   document.addEventListener('click', (e) => {
@@ -246,7 +270,32 @@ if (heroVideo) {
 }
 
 /* =========================================================
-   9. BOTÓN FLOTANTE: VOLVER ARRIBA
+   9. INDICADOR EN VIVO: ABIERTO / CERRADO (12 PM – 11 PM)
+   ========================================================= */
+const OPEN_HOUR = 12;  // 12:00 PM
+const CLOSE_HOUR = 23; // 11:00 PM (a las 23:00 cierra)
+
+function isRestaurantOpen() {
+  const h = new Date().getHours();
+  return h >= OPEN_HOUR && h < CLOSE_HOUR;
+}
+
+function updateStatusIndicators() {
+  const open = isRestaurantOpen();
+  $$('.status-indicator').forEach(el => {
+    el.classList.toggle('open', open);
+    el.classList.toggle('closed', !open);
+    const text = $('.status-text', el);
+    if (text) text.textContent = open ? 'Abierto' : 'Cerrado';
+    el.setAttribute('aria-label', open ? 'Abierto ahora, de 12:00 PM a 11:00 PM' : 'Cerrado ahora, abre de 12:00 PM a 11:00 PM');
+  });
+}
+
+updateStatusIndicators();
+setInterval(updateStatusIndicators, 60 * 1000);
+
+/* =========================================================
+   10. BOTÓN FLOTANTE: VOLVER ARRIBA
    ========================================================= */
 const toTop = $('#toTop');
 if (toTop) {
