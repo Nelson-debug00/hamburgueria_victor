@@ -109,10 +109,9 @@ if (tCarousel) {
   const tSlides = $$('.t-slide', tCarousel);
   const tCards  = $$('.t-card-slide', tCarousel);
   let tIndex = 0;
-  let tTimer = null;
 
-  function goToTestimonial(i, manual = false) {
-    tIndex = (i + tSlides.length) % tSlides.length;
+  function goToTestimonial(i) {
+    tIndex = i;
     tSlides.forEach((s, idx) => {
       const onScreen = idx === tIndex;
       s.classList.toggle('active', onScreen);
@@ -120,29 +119,16 @@ if (tCarousel) {
       s.inert = !onScreen;
     });
     tCards.forEach((c, idx) => c.classList.toggle('active', idx === tIndex));
-    if (manual) restartTestimonials();
   }
 
-  function startTestimonials() { tTimer = setInterval(() => goToTestimonial(tIndex + 1), 6000); }
-  function restartTestimonials() { clearInterval(tTimer); startTestimonials(); }
-
-  $('#tPrev').addEventListener('click', () => goToTestimonial(tIndex - 1, true));
-  $('#tNext').addEventListener('click', () => goToTestimonial(tIndex + 1, true));
-  tCarousel.addEventListener('mouseenter', () => clearInterval(tTimer));
-  tCarousel.addEventListener('mouseleave', startTestimonials);
-
-  // Swipe táctil móvil
-  let tTouchX = null;
-  tCarousel.addEventListener('touchstart', e => { tTouchX = e.changedTouches[0].clientX; }, { passive: true });
-  tCarousel.addEventListener('touchend', e => {
-    if (tTouchX === null) return;
-    const delta = e.changedTouches[0].clientX - tTouchX;
-    if (Math.abs(delta) > 45) delta < 0 ? goToTestimonial(tIndex + 1, true) : goToTestimonial(tIndex - 1, true);
-    tTouchX = null;
-  }, { passive: true });
+  $('#tPrev').addEventListener('click', () => {
+    if (tIndex > 0) goToTestimonial(tIndex - 1);
+  });
+  if (tNext) tNext.addEventListener('click', () => {
+    if (tIndex < tSlides.length - 1) goToTestimonial(tIndex + 1);
+  });
 
   goToTestimonial(0);
-  startTestimonials();
 }
 
 /* =========================================================
@@ -288,5 +274,45 @@ if (toTop) {
   toTop.addEventListener('click', () => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+}
+
+/* =========================================================
+    11. LIGHTBOX: IMAGEN EN GRANDE
+    ========================================================= */
+const lightbox = $('#lightbox');
+const lightboxImg = $('#lightboxImg');
+const lightboxClose = $('#lightboxClose');
+
+if (lightbox && lightboxImg && lightboxClose) {
+  $$('.grid-item').forEach(item => {
+    item.style.cursor = 'pointer';
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      if (img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+      }
+    });
+  });
+  $$('.t-card-slide').forEach(slide => {
+    slide.style.cursor = 'pointer';
+    slide.addEventListener('click', () => {
+      const img = slide.querySelector('img');
+      if (img) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+      }
+    });
+  });
+
+  lightboxClose.addEventListener('click', () => lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) lightbox.classList.remove('open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') lightbox.classList.remove('open');
   });
 }
