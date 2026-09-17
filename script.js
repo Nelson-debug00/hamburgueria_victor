@@ -101,66 +101,48 @@ filterBtns.forEach(btn => btn.addEventListener('click', () => {
 }));
 
 /* =========================================================
-   4. CAROUSEL DE EVENTOS (autoplay, flechas, dots y swipe)
+   4. CARRUSEL DE TESTIMONIOS (autoplay, flechas y swipe)
    ========================================================= */
-const track = $('#carouselTrack');
-const dotsWrap = $('#carDots');
-const carousel = $('#carousel');
+const tCarousel = $('#tCarousel');
 
-if (track && dotsWrap && carousel) {
-  const slides = $$('.slide', track);
-  let carIndex = 0;
-  let carTimer = null;
+if (tCarousel) {
+  const tSlides = $$('.t-slide', tCarousel);
+  const tCards  = $$('.t-card-slide', tCarousel);
+  let tIndex = 0;
+  let tTimer = null;
 
-  // Construcción dinámica de dots
-  slides.forEach((_, i) => {
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.setAttribute('aria-label', `Ir al evento ${i + 1}`);
-    dot.addEventListener('click', () => goToSlide(i, true));
-    dotsWrap.appendChild(dot);
-  });
-  const dots = $$('button', dotsWrap);
-
-  function goToSlide(i, manual = false) {
-    carIndex = (i + slides.length) % slides.length;
-    track.style.transform = `translateX(-${carIndex * 100}%)`;
-    slides.forEach((s, idx) => {
-      const onScreen = idx === carIndex;
+  function goToTestimonial(i, manual = false) {
+    tIndex = (i + tSlides.length) % tSlides.length;
+    tSlides.forEach((s, idx) => {
+      const onScreen = idx === tIndex;
+      s.classList.toggle('active', onScreen);
       s.toggleAttribute('aria-hidden', !onScreen);
       s.inert = !onScreen;
     });
-    dots.forEach((d, idx) => {
-      const active = idx === carIndex;
-      d.classList.toggle('active', active);
-      if (active) d.setAttribute('aria-current', 'true');
-      else d.removeAttribute('aria-current');
-    });
-    if (manual) restartAutoplay();
+    tCards.forEach((c, idx) => c.classList.toggle('active', idx === tIndex));
+    if (manual) restartTestimonials();
   }
-  function nextSlide(manual = false) { goToSlide(carIndex + 1, manual); }
-  function prevSlide(manual = false) { goToSlide(carIndex - 1, manual); }
 
-  function startAutoplay() { carTimer = setInterval(() => nextSlide(false), 5000); }
-  function restartAutoplay() { clearInterval(carTimer); startAutoplay(); }
+  function startTestimonials() { tTimer = setInterval(() => goToTestimonial(tIndex + 1), 6000); }
+  function restartTestimonials() { clearInterval(tTimer); startTestimonials(); }
 
-  $('#carNext').addEventListener('click', () => nextSlide(true));
-  $('#carPrev').addEventListener('click', () => prevSlide(true));
-  carousel.addEventListener('mouseenter', () => clearInterval(carTimer));
-  carousel.addEventListener('mouseleave', startAutoplay);
+  $('#tPrev').addEventListener('click', () => goToTestimonial(tIndex - 1, true));
+  $('#tNext').addEventListener('click', () => goToTestimonial(tIndex + 1, true));
+  tCarousel.addEventListener('mouseenter', () => clearInterval(tTimer));
+  tCarousel.addEventListener('mouseleave', startTestimonials);
 
   // Swipe táctil móvil
-  let touchX = null;
-  carousel.addEventListener('touchstart', e => { touchX = e.changedTouches[0].clientX; }, { passive: true });
-  carousel.addEventListener('touchend', e => {
-    if (touchX === null) return;
-    const delta = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(delta) > 45) delta < 0 ? nextSlide(true) : prevSlide(true);
-    touchX = null;
+  let tTouchX = null;
+  tCarousel.addEventListener('touchstart', e => { tTouchX = e.changedTouches[0].clientX; }, { passive: true });
+  tCarousel.addEventListener('touchend', e => {
+    if (tTouchX === null) return;
+    const delta = e.changedTouches[0].clientX - tTouchX;
+    if (Math.abs(delta) > 45) delta < 0 ? goToTestimonial(tIndex + 1, true) : goToTestimonial(tIndex - 1, true);
+    tTouchX = null;
   }, { passive: true });
 
-  goToSlide(0);
-  startAutoplay();
+  goToTestimonial(0);
+  startTestimonials();
 }
 
 /* =========================================================

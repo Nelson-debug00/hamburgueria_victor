@@ -30,7 +30,7 @@
       <nav class="nav-menu" id="navMenu" aria-label="Navegación principal">
         <a href="#inicio"  class="nav-link active">Inicio</a>
         <a href="menu.html"    class="nav-link">Menú</a>
-        <a href="#eventos" class="nav-link">Eventos Especiales</a>
+        <a href="#novedades" class="nav-link">Novedades</a>
         <a href="#sedes"   class="nav-link">Sedes</a>
         <a href="#contacto" class="nav-link">Contacto</a>
         <a href="https://wa.me/584249023408?text=%C2%A1Hola!%20Quiero%20hacer%20un%20pedido%20en%20La%20Hamburguer%C3%ADa%20de%20V%C3%ADctor%20%F0%9F%8D%94"
@@ -70,52 +70,37 @@
       </div>
     </section>
 
-    <!-- ============ SECTION 2: EVENTOS ESPECIALES ============ -->
-    <section class="section events" id="eventos">
+    <!-- ============ SECTION 2: NOVEDADES / CARRUSEL DESTACADO ============ -->
+    <section class="section novedades" id="novedades">
       <div class="container">
         <header class="section-head reveal">
-          <span class="kicker">Eventos Especiales</span>
-          <h2>Ambiente Familiar Todo el Año</h2>
-          <p>Celebraciones de temporada, cumpleaños y activaciones que hacen de cada visita una fiesta.</p>
+          <span class="kicker">Novedades</span>
+          <h2>Eventos y Promociones</h2>
+          <p>En La Hamburguería de Víctor celebramos fechas importantes con promociones especiales, lanzamientos de nuevas hamburguesas y eventos temáticos. Desde celebraciones de cumpleaños hasta días de descuentos, te invitamos a vivir cada momento al carbón.</p>
         </header>
 
-        <div class="carousel reveal" id="carousel" aria-roledescription="carrusel" aria-label="Galería de eventos">
-          <div class="carousel-track" id="carouselTrack">
-            <figure class="slide slide-xmas">
-              <div class="slide-art" aria-hidden="true">🎅</div>
-              <figcaption>
-                <h3>Navidad Mágica</h3>
-                <p>Visita de Santa, entrega de regalos y menú especial de temporada para compartir en familia.</p>
-              </figcaption>
-            </figure>
-            <figure class="slide slide-bday">
-              <div class="slide-art" aria-hidden="true">🎂</div>
-              <figcaption>
-                <h3>Cumpleaños Víctor</h3>
-                <p>Paquetes de celebración con animación, decoración y combos exclusivos para el agasajado.</p>
-              </figcaption>
-            </figure>
-            <figure class="slide slide-kids">
-              <div class="slide-art" aria-hidden="true">🎈</div>
-              <figcaption>
-                <h3>Activaciones Infantiles</h3>
-                <p>Personajes, shows y sorpresas los fines de semana. Diversión garantizada para los peques.</p>
-              </figcaption>
-            </figure>
-            <figure class="slide slide-night">
-              <div class="slide-art" aria-hidden="true">🎶</div>
-              <figcaption>
-                <h3>Noches al Carbón</h3>
-                <p>Música en vivo, luces neón y el mejor ambiente urbano de Maturín para cerrar la semana.</p>
-              </figcaption>
-            </figure>
+        <div class="carousel-container" id="tCarousel" aria-roledescription="carrusel" aria-label="Novedades destacadas">
+          <div class="t-text">
+            <div class="t-slide active">
+              <p class="t-quote">En La Hamburguería de Víctor celebramos las fechas más importantes con promociones especiales, lanzamientos de nuevas hamburguesas y eventos temáticos que no te puedes perder.</p>
+              <p class="t-quote">Síguenos las redes y entra al WhatsApp para enterarte en tiempo real de cada oferta, combo temporal o activación. Aquí cada mordida es una novedad.</p>
+            </div>
           </div>
-          <button class="car-btn prev" id="carPrev" aria-label="Evento anterior"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
-          <button class="car-btn next" id="carNext" aria-label="Evento siguiente"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
-        </div>
-        <div class="car-dots" id="carDots" role="group" aria-label="Seleccionar evento"></div>
 
-        <p class="events-quote reveal">“Más que una hamburguería, un lugar para crear momentos inolvidables en familia.”</p>
+          <button class="t-nav t-prev" id="tPrev" type="button" aria-label="Novedad anterior">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+
+          <div class="t-card">
+            <div class="t-card-slide active"><img src="assets/perro_pollo.jpg" alt="Promoción perro con pollo" loading="lazy"></div>
+            <div class="t-card-slide"><img src="assets/perro_chorizo.jpg" alt="Promoción perro con chorizo" loading="lazy"></div>
+            <div class="t-card-slide"><img src="assets/dia_del_niño.jpg" alt="Evento Día del Niño" loading="lazy"></div>
+          </div>
+
+          <button class="t-nav t-next" id="tNext" type="button" aria-label="Novedad siguiente">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -158,21 +143,20 @@
       </div>
     </section>
 
-    <!-- ============ SECTION 4: PRUEBA SOCIAL / INSTAGRAM ============ -->
-    <section class="section social" id="comunidad">
-      <div class="container social-box reveal">
-        <div class="social-copy">
-          <span class="kicker">Prueba Social</span>
-          <h2>Una Comunidad que Crece con cada Mordida</h2>
-          <p>Nuestra comunidad nos etiqueta, reseña y comparte sus momentos en <strong>@lahamburgueriadevictor</strong>. Súmate a la familia Vic y no te pierdas ningún drop del menú.</p>
-          <a class="btn btn-primary" href="https://www.instagram.com/lahamburgueriadevictor/" target="_blank" rel="noopener">Seguir en Instagram</a>
-        </div>
-        <div class="social-grid" aria-hidden="true">
-          <div class="tile">🍔</div>
-          <div class="tile">🌭</div>
-          <div class="tile">🎉</div>
-          <div class="tile">🧀</div>
-        </div>
+    <!-- ============ SECTION 4: INSTAGRAM (BENTO GRID) ============ -->
+    <section class="section instagram-bento reveal" id="comunidad">
+      <div class="profile-card">
+        <span class="subtitle">Síguenos</span>
+        <h3 class="username">@lahamburgueriadevictor</h3>
+        <div class="avatar" role="img" aria-label="Logo de La Hamburguería de Víctor"></div>
+        <a class="btn-follow" href="https://www.instagram.com/lahamburgueriadevictor/" target="_blank" rel="noopener">Seguir en Instagram</a>
+      </div>
+
+      <div class="gallery-grid" aria-hidden="true">
+        <div class="grid-item item-tall">🍔</div>
+        <div class="grid-item item-wide">🌭</div>
+        <div class="grid-item item-sq1">🎉</div>
+        <div class="grid-item item-sq2">🧀</div>
       </div>
     </section>
   </main>
@@ -215,7 +199,7 @@
 
     <div class="footer-bottom">
       <div class="container fb-inner">
-        <p>© <span id="year"></span> La Hamburguería de Víctor — Maturín, Venezuela. Todos los derechos reservados.</p>
+        <p>© <span id="year"></span> La Hamburguería de Víctor. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
@@ -247,7 +231,7 @@
     </div>
 
     <button class="wa-fab" id="waFab" aria-expanded="false" aria-controls="waPanel" aria-label="Abrir pedido por WhatsApp">
-      <svg viewBox="0 0 24 24" width="30" height="30" fill="#fff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 92 93" width="30" height="30" fill="none" aria-hidden="true"><mask id="path-1-inside-1_715_13545" fill="white"><path d="M0.383437 46.081C0.381204 54.2018 2.48974 62.1312 6.49907 69.1203L0 93L24.2839 86.5923C31.0005 90.2719 38.5259 92.2 46.1733 92.2005H46.1934C71.4388 92.2005 91.9892 71.5273 92 46.1173C92.0048 33.8044 87.2443 22.226 78.595 13.5151C69.9471 4.805 58.4459 0.00561945 46.1915 0C20.9431 0 0.394233 20.6721 0.38381 46.081"/></mask><path d="M0.383437 46.081C0.381204 54.2018 2.48974 62.1312 6.49907 69.1203L0 93L24.2839 86.5923C31.0005 90.2719 38.5259 92.2 46.1733 92.2005H46.1934C71.4388 92.2005 91.9892 71.5273 92 46.1173C92.0048 33.8044 87.2443 22.226 78.595 13.5151C69.9471 4.805 58.4459 0.00561945 46.1915 0C20.9431 0 0.394233 20.6721 0.38381 46.081" fill="url(#paint0_linear_715_13545)"/><path d="M6.49907 69.1203L11.3236 70.4334L11.8684 68.4317L10.8361 66.6324L6.49907 69.1203ZM0 93L-4.82451 91.687L-7.09905 100.044L1.27567 97.8345L0 93ZM24.2839 86.5923L26.6861 82.2072L24.9368 81.2489L23.0082 81.7578L24.2839 86.5923ZM46.1733 92.2005L46.1729 97.2005H46.1733V92.2005ZM92 46.1173L97 46.1194V46.1193L92 46.1173ZM78.595 13.5151L75.0467 17.038L75.0469 17.0381L78.595 13.5151ZM46.1915 0L46.1938 -5H46.1915V0ZM-4.61656 46.0796C-4.61904 55.069 -2.28434 63.8574 2.16203 71.6083L10.8361 66.6324C7.26381 60.4051 5.38144 53.3346 5.38344 46.0823L-4.61656 46.0796ZM1.67456 67.8073L-4.82451 91.687L4.82451 94.313L11.3236 70.4334L1.67456 67.8073ZM1.27567 97.8345L25.5595 91.4269L23.0082 81.7578L-1.27567 88.1655L1.27567 97.8345ZM21.8816 90.9774C29.3334 95.0598 37.6847 97.1999 46.1729 97.2005L46.1737 87.2005C39.3671 87.2 32.6676 85.484 26.6861 82.2072L21.8816 90.9774ZM46.1733 97.2005H46.1934V87.2005H46.1733V97.2005ZM46.1934 97.2005C74.2297 97.2005 96.988 74.2597 97 46.1194L87 46.1152C86.9904 68.795 68.648 87.2005 46.1934 87.2005V97.2005ZM97 46.1193C97.0053 32.4903 91.726 19.6434 82.143 9.99218L75.0469 17.0381C82.7625 24.8087 87.0043 35.1184 87 46.1153L97 46.1193ZM82.1432 9.99233C72.5596 0.339718 59.7831 -4.99377 46.1938 -5L46.1892 5C57.1087 5.00501 67.3347 9.27029 75.0467 17.038L82.1432 9.99233ZM46.1915 -5C18.1525 -5 -4.60465 17.9395 -4.61619 46.0789L5.38381 46.083C5.39311 23.4047 23.7337 5 46.1915 5V-5Z" fill="#E2FFE4" fill-opacity="0.84" mask="url(#path-1-inside-1_715_13545)"/><path d="M34.4576 26.0905C33.5544 24.1027 32.6039 24.0626 31.745 24.0278C31.0417 23.9978 30.2377 24 29.4344 24C28.6304 24 27.3241 24.2995 26.2199 25.4934C25.1146 26.6883 22 29.576 22 35.4493C22 41.3226 26.3202 46.999 26.9225 47.7963C27.5255 48.5921 35.2627 61.0305 47.5166 65.8156C57.7007 69.7922 59.7732 69.0013 61.9835 68.8019C64.1941 68.6032 69.1166 65.9149 70.1208 63.1273C71.1258 60.3401 71.1258 57.9509 70.8245 57.4516C70.5232 56.9542 69.7192 56.6555 68.5135 56.0587C67.3079 55.462 61.3804 52.5735 60.2755 52.1751C59.1702 51.777 58.3666 51.5784 57.5625 52.7737C56.7585 53.9672 54.4499 56.6555 53.7462 57.4516C53.0432 58.2496 52.3395 58.3489 51.1343 57.7518C49.9279 57.1529 46.0453 55.8938 41.4389 51.8272C37.8549 48.6629 35.4353 44.7553 34.732 43.5599C34.0287 42.3665 34.6567 41.7195 35.2612 41.1246C35.8029 40.5898 36.4672 39.7306 37.0706 39.0338C37.6717 38.3366 37.8723 37.8392 38.2743 37.0431C38.6767 36.2462 38.4753 35.549 38.1744 34.9519C37.8723 34.3548 35.5296 28.4508 34.4576 26.0905Z" fill="white"/><defs><linearGradient id="paint0_linear_715_13545" x1="46" y1="93" x2="46" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#1FAF38"/><stop offset="1" stop-color="#60D669"/></linearGradient></defs></svg>
     </button>
   </div>
 
