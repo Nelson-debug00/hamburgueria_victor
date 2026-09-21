@@ -9,21 +9,34 @@ const $  = (sel, ctx = document) => ctx.querySelector(sel);
 const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
 /* ---------- Configuración de negocio ---------- */
-// ⚠️ Sustituye por las líneas reales de cada sede cuando estén disponibles.
 const WA_NUMBERS = {
   Bicentenario: '584249023408',
-  Tipuro:       '584249023408'
+  Tipuro:       '584128391771'
 };
 let currentOrderItem = null; // Producto seleccionado desde las tarjetas del menú
 
 /* =========================================================
-   1. NAVBAR: estado al scroll + menú móvil
+   1. NAVBAR: estado al scroll + menú móvil + hide-on-scroll (solo móvil en menu.html)
    ========================================================= */
 const navbar   = $('#navbar');
 const navToggle = $('#navToggle');
 
+let lastScrollY = window.scrollY;
+
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 10);
+  const currentScrollY = window.scrollY;
+  navbar.classList.toggle('scrolled', currentScrollY > 10);
+
+  const isMobile = window.innerWidth < 900;
+
+  if (isMobile && currentScrollY > 10 && !navbar.classList.contains('menu-open')) {
+    navbar.classList.add('nav-hidden');
+    document.body.classList.add('nav-hidden-active');
+  } else {
+    navbar.classList.remove('nav-hidden');
+    document.body.classList.remove('nav-hidden-active');
+  }
+  lastScrollY = currentScrollY;
 }, { passive: true });
 
 navToggle.addEventListener('click', () => {
@@ -73,32 +86,85 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 /* =========================================================
-   3. FILTROS INTERACTIVOS DEL MENÚ
+   3. FILTROS INTERACTIVOS DEL MENÚ (Lógica estilo Williams Bistro)
    ========================================================= */
 const filterBtns = $$('.filter-btn');
 const cards = $$('#menuGrid .card');
 
-filterBtns.forEach(btn => btn.setAttribute('aria-pressed', String(btn.classList.contains('active'))));
-
-filterBtns.forEach(btn => btn.addEventListener('click', () => {
-  filterBtns.forEach(b => {
-    b.classList.remove('active');
-    b.setAttribute('aria-pressed', 'false');
+function countDishes() {
+  const counts = { all: 0 };
+  filterBtns.forEach(btn => {
+    const f = btn.dataset.filter;
+    if (f && f !== 'all') counts[f] = 0;
   });
-  btn.classList.add('active');
-  btn.setAttribute('aria-pressed', 'true');
 
-  const filter = btn.dataset.filter;
   cards.forEach(card => {
-    const match = filter === 'all' || card.dataset.category === filter;
+    const cat = card.dataset.category;
+    if (cat) {
+      counts.all++;
+      if (counts.hasOwnProperty(cat)) {
+        counts[cat]++;
+      }
+    }
+  });
+  return counts;
+}
+
+function updateCounters() {
+  const counts = countDishes();
+  filterBtns.forEach(btn => {
+    const filter = btn.dataset.filter;
+    const countSpan = btn.querySelector('.filter-count');
+    if (countSpan && counts.hasOwnProperty(filter)) {
+      countSpan.textContent = counts[filter];
+    }
+  });
+}
+
+function applyFilter(category) {
+  filterBtns.forEach(btn => {
+    const isActive = btn.dataset.filter === category;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
+  });
+
+  cards.forEach(card => {
+    const match = category === 'all' || card.dataset.category === category;
     card.classList.toggle('hidden', !match);
-    if (match) {                       // Re-animación de entrada
+    if (match) {
       card.classList.remove('pop');
-      void card.offsetWidth;           // Forza reflow para reiniciar animación
+      void card.offsetWidth;
       card.classList.add('pop');
     }
   });
-}));
+
+  updateCounters();
+
+  setTimeout(() => {
+    const menuSection = $('#menu');
+    if (menuSection && category !== 'all') {
+      const offset = 130;
+      const top = menuSection.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+    }
+  }, 100);
+}
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyFilter(btn.dataset.filter);
+  });
+});
+
+updateCounters();
+
+const hash = window.location.hash.replace('#', '');
+if (hash) {
+  const matchingBtn = filterBtns.find(b => b.dataset.filter === hash);
+  if (matchingBtn) {
+    applyFilter(hash);
+  }
+}
 
 /* =========================================================
    4. CARRUSEL DE TESTIMONIOS / EVENTOS (flechas, puntos y autoplay)
@@ -129,19 +195,23 @@ if (tCarousel) {
 
   const tPrevBtn = $('#tPrev');
   const tNextBtn = $('#tNext');
+  const tPrevMobileBtn = $('#tPrevMobile');
+  const tNextMobileBtn = $('#tNextMobile');
 
-  if (tPrevBtn) {
-    tPrevBtn.addEventListener('click', () => {
-      goToTestimonial(tIndex - 1);
-      startAutoplay();
-    });
-  }
-  if (tNextBtn) {
-    tNextBtn.addEventListener('click', () => {
-      goToTestimonial(tIndex + 1);
-      startAutoplay();
-    });
-  }
+  const handlePrev = () => {
+    goToTestimonial(tIndex - 1);
+    startAutoplay();
+  };
+
+  const handleNext = () => {
+    goToTestimonial(tIndex + 1);
+    startAutoplay();
+  };
+
+  if (tPrevBtn) tPrevBtn.addEventListener('click', handlePrev);
+  if (tNextBtn) tNextBtn.addEventListener('click', handleNext);
+  if (tPrevMobileBtn) tPrevMobileBtn.addEventListener('click', handlePrev);
+  if (tNextMobileBtn) tNextMobileBtn.addEventListener('click', handleNext);
 
   tDots.forEach(dot => {
     dot.addEventListener('click', () => {
@@ -153,6 +223,26 @@ if (tCarousel) {
 
   tCarousel.addEventListener('mouseenter', stopAutoplay);
   tCarousel.addEventListener('mouseleave', startAutoplay);
+
+  // Soporte para gestos táctiles (swipe) en móviles
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  tCarousel.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    stopAutoplay();
+  }, { passive: true });
+
+  tCarousel.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    const swipeThreshold = 40;
+    if (touchEndX < touchStartX - swipeThreshold) {
+      goToTestimonial(tIndex + 1);
+    } else if (touchEndX > touchStartX + swipeThreshold) {
+      goToTestimonial(tIndex - 1);
+    }
+    startAutoplay();
+  }, { passive: true });
 
   goToTestimonial(0);
   startAutoplay();
@@ -226,11 +316,19 @@ if (waFab && waPanel && waClose) {
     sendToWhatsApp(btn.dataset.waSede);
   }));
 
-  // CTA secundario del Hero → directo a WhatsApp
+  // Botón "Hacer Pedido Delivery" del Hero → abre el selector de sede
   const heroDelivery = $('#heroDelivery');
-  if (heroDelivery) heroDelivery.addEventListener('click', () => {
-    const msg = '¡Hola La Hamburguería de Víctor! 👋 Quiero hacer un pedido delivery. 🛵';
-    window.open(`https://wa.me/${WA_NUMBERS.Bicentenario}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener');
+  if (heroDelivery) heroDelivery.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openWaPanel();
+  });
+
+  // CTA: "Pedir por WhatsApp" del navbar → abre el selector de sede
+  const navCta = $('.nav-cta[href*="wa.me"]');
+  if (navCta) navCta.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openWaPanel();
   });
 
   // Cerrar panel con clic fuera o tecla Escape
