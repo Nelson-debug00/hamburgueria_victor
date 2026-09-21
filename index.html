@@ -29,6 +29,7 @@
 
       <nav class="nav-menu" id="navMenu" aria-label="Navegación principal">
         <a href="#inicio"  class="nav-link active">Inicio</a>
+        <a href="menu.html" class="nav-link">Menú</a>
         <a href="#novedades" class="nav-link">Novedades</a>
         <a href="#sedes"   class="nav-link">Sedes</a>
         <a href="#contacto" class="nav-link">Contacto</a>
@@ -48,10 +49,10 @@
       <div class="container hero-grid">
         <div class="hero-copy reveal visible">
           <h1>El Verdadero Sabor al Carbón en <span class="accent">Maturín</span></h1>
-          <p class="hero-sub">Hamburguesas jugosas, promociones familiares y el mejor ambiente de la ciudad. ¡Pide en línea o visítanos!</p>
+          <p class="hero-sub">Disfruta de las hamburguesas más jugosas, preparadas con ingredientes frescos de primera calidad, promociones familiares irresistibles y el mejor ambiente de la ciudad. ¡Pide en línea con delivery rápido o visítanos hoy mismo!</p>
           <div class="hero-ctas">
-            <a href="menu.html" class="btn btn-primary">Ver Menú y Promos</a>
-            <button type="button" class="btn btn-secondary" id="heroDelivery">Hacer Pedido Delivery</button>
+            <button type="button" class="btn btn-primary" id="heroDelivery">Hacer Pedido Delivery</button>
+            <a href="menu.html" class="btn btn-secondary">Ver Menú y Precios</a>
           </div>
           <p class="hero-micro">
             <span class="status-indicator" id="heroStatus" role="status">
@@ -72,42 +73,61 @@
     <!-- ============ SECTION 2: NOVEDADES / CARRUSEL DESTACADO ============ -->
     <section class="section novedades" id="novedades">
       <div class="container">
-        <header class="section-head reveal">
-          <span class="kicker">Novedades</span>
-          <p>En La Hamburguería de Víctor celebramos fechas importantes con promociones especiales, lanzamientos de nuevas hamburguesas y eventos temáticos. Desde celebraciones de cumpleaños hasta días de descuentos, te invitamos a vivir cada momento al carbón.</p>
-        </header>
-
-<div class="carousel-container" id="tCarousel" aria-roledescription="carrusel" aria-label="Novedades destacadas">
-          <h3 class="carousel-title">Eventos y Promociones</h3>
+        <div class="novedades-card reveal" id="tCarousel" aria-roledescription="carrusel" aria-label="Novedades destacadas">
+          <div class="novedades-glow-bg" aria-hidden="true"></div>
           
-          <button class="t-nav t-prev" id="tPrev" type="button" aria-label="Novedad anterior">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-
-          <div class="t-card">
-            <div class="t-card-slide active"><img src="assets/perro_pollo.jpg" alt="Promoción perro con pollo" loading="lazy"></div>
-            <div class="t-card-slide"><img src="assets/perro_chorizo.jpg" alt="Promoción perro con chorizo" loading="lazy" style="object-position: center top; object-fit: cover;"></div>
-            <div class="t-card-slide"><img src="assets/dia_del_niño.jpg" alt="Evento Día del Niño" loading="lazy"></div>
+          <div class="carousel-left">
+            <span class="novedades-badge">🔥 Novedades & Promos</span>
+            <h2 class="carousel-title">Eventos & Promociones <span class="text-gradient">Especiales</span></h2>
+            <p class="carousel-static-text">En La Hamburguería de Víctor celebramos fechas importantes con promociones especiales, lanzamientos exclusivos y eventos temáticos. ¡No te pierdas de nuestras mejores combinaciones al carbón!</p>
+            <div class="novedades-actions">
+              <a href="#menu" class="btn btn-primary">Ver Menú Completo</a>
+            </div>
           </div>
 
-          <button class="t-nav t-next" id="tNext" type="button" aria-label="Novedad siguiente">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
+          <div class="carousel-right">
+            <div class="t-card-wrapper">
+              <button class="t-nav t-prev" id="tPrev" type="button" aria-label="Novedad anterior">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
 
-          <div class="t-text">
-            <div class="t-slide active">
-              <p class="t-quote">En La Hamburguería de Víctor celebramos las fechas más importantes con promociones especiales, lanzamientos de nuevas hamburguesas y eventos temáticos que no te puedes perder.</p>
-              <p class="t-quote">Síguenos las redes y entra al WhatsApp para enterarte en tiempo real de cada oferta, combo temporal o activación. Aquí cada mordida es una novedad.</p>
+              <div class="t-card-container">
+                <div class="t-card">
+                  <div class="t-card-slide active" data-index="0">
+                    <img src="assets/perro_pollo.jpg" alt="Promoción perro con pollo" loading="lazy">
+                    <div class="slide-overlay">
+                      <span class="slide-tag">Promoción Especial</span>
+                      <h3 class="slide-title">Perro Caliente con Pollo</h3>
+                    </div>
+                  </div>
+                  <div class="t-card-slide" data-index="1">
+                    <img src="assets/perro_chorizo.jpg" alt="Promoción perro con chorizo" loading="lazy" style="object-position: center top; object-fit: cover;">
+                    <div class="slide-overlay">
+                      <span class="slide-tag">Combo Especial</span>
+                      <h3 class="slide-title">Perro con Chorizo Ahumado</h3>
+                    </div>
+                  </div>
+                  <div class="t-card-slide" data-index="2">
+                    <img src="assets/dia_del_niño.jpg" alt="Evento Día del Niño" loading="lazy">
+                    <div class="slide-overlay">
+                      <span class="slide-tag">Evento Temático</span>
+                      <h3 class="slide-title">Especial Día del Niño</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="carousel-dots" id="carouselDots">
+                  <button class="dot active" data-slide="0" aria-label="Ir a novedad 1"></button>
+                  <button class="dot" data-slide="1" aria-label="Ir a novedad 2"></button>
+                  <button class="dot" data-slide="2" aria-label="Ir a novedad 3"></button>
+                </div>
+              </div>
+
+              <button class="t-nav t-next" id="tNext" type="button" aria-label="Novedad siguiente">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
             </div>
-            <div class="t-slide">
-              <p class="t-quote">Desde 2023 hemos estado sirviendo las mejores hamburguesas al carbón de la región. Ven y prueba nuestros combos exclusivos.</p>
-              <p class="t-quote">Nuestra carne es 100% local, cocinada a la perfección y acompañada de los mejores ingredientes frescos de la zona.</p>
-            </div>
-            <div class="t-slide">
-              <p class="t-quote">El Día del Niño fue una celebración inolvidable con diversión, regalos y la mejor comida para toda la familia.</p>
-              <p class="t-quote">No te pierdas nuestras próximas promociones. Síguenos en redes y entérate antes que nadie de todo lo que tenemos preparado para ti.</p>
-            </div>
-        </div>
+          </div>
         </div>
       </div>
     </section>

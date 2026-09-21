@@ -101,34 +101,61 @@ filterBtns.forEach(btn => btn.addEventListener('click', () => {
 }));
 
 /* =========================================================
-   4. CARRUSEL DE TESTIMONIOS (autoplay, flechas y swipe)
+   4. CARRUSEL DE TESTIMONIOS / EVENTOS (flechas, puntos y autoplay)
    ========================================================= */
 const tCarousel = $('#tCarousel');
 
 if (tCarousel) {
-  const tSlides = $$('.t-slide', tCarousel);
-  const tCards  = $$('.t-card-slide', tCarousel);
+  const tCards = $$('.t-card-slide', tCarousel);
+  const tDots = $$('.dot', tCarousel);
+  const totalCards = tCards.length;
   let tIndex = 0;
+  let autoplayTimer = null;
 
   function goToTestimonial(i) {
-    tIndex = i;
-    tSlides.forEach((s, idx) => {
-      const onScreen = idx === tIndex;
-      s.classList.toggle('active', onScreen);
-      s.toggleAttribute('aria-hidden', !onScreen);
-      s.inert = !onScreen;
-    });
+    tIndex = (i + totalCards) % totalCards;
     tCards.forEach((c, idx) => c.classList.toggle('active', idx === tIndex));
+    tDots.forEach((d, idx) => d.classList.toggle('active', idx === tIndex));
   }
 
-  $('#tPrev').addEventListener('click', () => {
-    if (tIndex > 0) goToTestimonial(tIndex - 1);
-  });
-  if (tNext) tNext.addEventListener('click', () => {
-    if (tIndex < tSlides.length - 1) goToTestimonial(tIndex + 1);
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(() => goToTestimonial(tIndex + 1), 4500);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+  }
+
+  const tPrevBtn = $('#tPrev');
+  const tNextBtn = $('#tNext');
+
+  if (tPrevBtn) {
+    tPrevBtn.addEventListener('click', () => {
+      goToTestimonial(tIndex - 1);
+      startAutoplay();
+    });
+  }
+  if (tNextBtn) {
+    tNextBtn.addEventListener('click', () => {
+      goToTestimonial(tIndex + 1);
+      startAutoplay();
+    });
+  }
+
+  tDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const slideIdx = parseInt(dot.dataset.slide, 10);
+      goToTestimonial(slideIdx);
+      startAutoplay();
+    });
   });
 
+  tCarousel.addEventListener('mouseenter', stopAutoplay);
+  tCarousel.addEventListener('mouseleave', startAutoplay);
+
   goToTestimonial(0);
+  startAutoplay();
 }
 
 /* =========================================================
